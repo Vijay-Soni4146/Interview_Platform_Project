@@ -18,7 +18,7 @@
       <div class="section-card">
           <div class="horizontal-flex-between">
               <span class="profile">
-                  <div class="profile-avatar">J</div>
+                  <div class="profile-avatar"><%= application.applicantId.name[0] %></div>
                   <h1 class="profile-name"><%= application.applicantId.name %></h1>
               </span>
               <button class="schedule-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="bi bi-calendar-plus"></i>Re-Schedule Interview</button>
@@ -128,7 +128,68 @@
 
       </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var datetimeInput = document.getElementById("datetime");
 
+      datetimeInput.addEventListener('keydown', function(event) {
+        // Disable all keys
+        event.preventDefault();
+      });
+      // Get the current date and time
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = (now.getMonth() + 1).toString().padStart(2, '0');
+      var day = now.getDate().toString().padStart(2, '0');
+      var hours = now.getHours().toString().padStart(2, '0');
+      var minutes = now.getMinutes().toString().padStart(2, '0');
+      var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`;
+  
+      // Set the min attribute of the datetime-local input to the current date and time
+      datetimeInput.min = currentDatetime;
+  
+      // Add event listener to validate input
+      datetimeInput.addEventListener("change", function() {
+          var selectedDatetime = new Date(datetimeInput.value);
+          if (selectedDatetime < now) {
+              // Reset input if it's in the past
+              datetimeInput.value = currentDatetime;
+              <!-- alert("Testing : Please choose a date and time in the future."); -->
+          }
+      });
+
+      const maxYear = new Date().getFullYear() + 5; // Change 5 to the desired number of years in the future
+
+    // Set the input value to the current date and time
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const currentDay = String(currentDate.getDate()).padStart(2, '0');
+    const currentHour = String(currentDate.getHours()).padStart(2, '0');
+    const currentMinute = String(currentDate.getMinutes()).padStart(2, '0');
+    const currentDateTimeMax = `${currentYear}-${currentMonth}-${currentDay}T${currentHour}:${currentMinute}`;
+
+    datetimeInput.value = currentDateTimeMax;
+
+    // Set the maximum year for the input
+      const yearInput = document.querySelector('input[type="datetime-local"]');
+      yearInput.addEventListener('input', function() {
+        const selectedYear = new Date(this.value).getFullYear();
+        if (selectedYear > maxYear) {
+          this.value = `${maxYear}-01-01T00:00`; // Set the value to the maximum year with January 1st
+        }
+      });
+      // Prevent manual entry of future dates beyond the limit
+      yearInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        if (selectedDate.getFullYear() > maxYear) {
+          this.setCustomValidity(`Please select a date within the next ${maxYear - currentYear} years.`);
+        } else {
+          this.setCustomValidity('');
+        }
+      });
+    });
+    </script>
   </main>
 
   <%- include('../includes/footer.ejs') %>
