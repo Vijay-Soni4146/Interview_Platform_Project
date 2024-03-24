@@ -1,0 +1,124 @@
+
+    <div class="container">
+      <div class="mx-auto p-2">
+        <div class="card-body text-center">
+          <div>
+
+
+            <h3 class="mb-3">Applicant Details:</h3>
+            <h5 class="card-title mb-1">Applicant Name: <%= application.applicantId.name %>
+            </h5>
+
+            <p class="card-text mb-1">E-mail: <%= application.applicantId.email %>
+            </p>
+            <p class="card-text">Mobile: <%= application.applicantId.mobile %>
+            </p>
+            <p class="card-text">Experience: <%= application.applicationId.experience %> yrs</p>
+
+          </div>
+
+          <div>
+            <h3 class="mb-3 mt-3">Application Details:</h3>
+            <h5 class="card-title mb-1">Job Role: <%= application.jobPostId.jobPostName %>
+            </h5>
+            <p class="card-text mb-1">Date of Application: <%= application.applicationId.date_of_application %>
+            </p>
+
+            <h3 class="mb-3 mt-3">Applicant Uploads:</h3>
+            <% application.documents.image.forEach((p,i)=>{ %>
+            <p class="card-text">Image <%= i+1 %>: <a href="/<%= p.path %>" target="_blank" >Image Path</a></p>
+            <% }) %>
+            <% application.documents.video.forEach((p,i)=>{ %>
+            <p class="card-text">Video <%= i+1 %>: <a href="/<%= p.path %>" target="_blank">Video Path</a></p>
+            <% }) %>
+            <p class="card-text mb-1">Interview Scheduled On: <%= application.date_scheduled %>
+            </p>
+          </div>
+
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Re-Schedule Interview
+          </button>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form action="/admin/reschedule-approved-evaluation" method="POST">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Schedule Interview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body m-3">
+                    <h6 class="modal-content mb-4" style="color: #6a84bd;">Please select date and time</h6>
+                    <input type="datetime-local" name="datetime" id="datetime">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <input type="hidden" name="applicantId" value="<%= applicantId %>">
+                    <input type="hidden" name="applicationId" value="<%= applicationId %>">
+                    <input type="hidden" name="jobPostId" value="<%= jobPostId %>">
+                    <button type="submit" name="approve" value="approve" class="btn btn-primary">Save
+                      changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+    ----------------------------------------------------------------------------------------------------------
+
+
+    
+    profile:{
+        work_experience:[{
+            company_name:{
+                type:String,
+                required:true
+            },
+            job_title:{
+                type:String,
+                required:true
+            },
+            duration:{
+                type:Number,
+                required:true
+            }
+        }],
+        Education:[{
+            Degree:{
+                type:String,
+                required:true
+            },
+            instutute_name:{
+                type:String,
+                required:true
+            },
+            field:{
+                type:String,
+                required:true
+            },
+            graduation_year:{
+                type:Number,
+                required:true
+            }
+        }],
+        skills:{
+            technical_skill:[{
+                tskill:{
+                    type:String,
+                    required:true
+                }
+            }],
+            soft_skill:[{
+                skill:{
+                    type:String,
+                    required:true
+                }
+            }]
+        }
+    }

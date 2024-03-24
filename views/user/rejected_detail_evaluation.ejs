@@ -1,0 +1,100 @@
+<%- include('../includes/header.ejs') %>
+
+<link rel="stylesheet" href="/css/detail.css">
+</head>
+
+<body>
+  <%- include('../includes/nav.ejs') %>
+
+  <main>
+
+            <% let applicantId = application.applicantId %>
+            <% let jobPostId = application.jobPostId._id %>
+            <% let applicationId = application.applicationId %>
+    
+    <div class="page-container">
+
+      <div class="section-card">
+          <div class="horizontal-flex-between">
+              <span class="profile">
+                  <div class="profile-avatar">J</div>
+                  <h1 class="profile-name"><%= application.applicantId.name %></h1>
+              </span>
+              <div class="rejected">
+                <p>Rejected</p>
+              </div>
+          </div>
+          <div class="chip-wrap">
+              <div class="chip">
+                  <i class="bi bi-briefcase"></i>
+                  <p><%= application.applicationId.experience %> years</p>
+              </div>
+              <div class="chip">
+                  <i class="bi bi-telephone"></i>
+                  <p><%= application.applicantId.mobile %></p>
+              </div>
+              <div class="chip">
+                  <i class="bi bi-envelope"></i>
+                  <p><%= application.applicantId.email %></p>
+              </div>
+          </div>
+      </div>
+
+      <div class="section-card">
+          <div class="section-header">
+              <h1 class="section-title">Applicant Details</h1>
+              <hr class="divider">
+          </div>
+          <div class="applicantinfo-wrap">
+              <div class="info-card">
+                  <p>Job Role</p>
+                  <h3><%= application.jobPostId.jobPostName %></h3>
+              </div>
+              <div class="info-card">
+                  <p>Date of Application</p>
+                  <% let dateStr = application.applicationId.date_of_application %>
+                  <% let date = new Date(dateStr); %>
+
+                  <% let options = { day: 'numeric', month: 'long', year: 'numeric' ,hour: 'numeric', minute: 'numeric', hour12: true}; %>
+                  <% let formattedDate = new Intl.DateTimeFormat('en-US', options).format(date); %>
+
+                  <h3><%= formattedDate %></h3>
+              </div>
+          </div>
+
+
+          <div class="section-header">
+              <h1 class="section-title">Applicant Uploads</h1>
+              <hr class="divider">
+          </div>
+
+          <!-- Images -->
+          <h3 class="section-subtitle">Images</h3>
+          <div class="uploads-wrap">
+            <% application.documents.image.forEach((p,i)=>{ %>
+              <div class="image-wrap">
+                  <img src="/<%= p.path %>" alt="/<%= p.path %>">
+                  <a href="/<%= p.path %>"><i class="bi bi-box-arrow-up-right"></i></a>
+              </div>
+            <% }) %>
+          </div>
+
+          <!-- Videos -->
+          <h3 class="section-subtitle">Video</h3>
+          <div class="video-wrap">
+            
+            <% application.documents.video.forEach((p,i)=>{ %>
+              <video width="300" height="150" controls autoplay="false">
+                  <source src="/<%= p.path %>" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+            <% }) %>
+          </div>
+
+      </div>
+  </div>
+  
+  </main>
+
+
+  <%- include('../includes/footer.ejs') %>

@@ -1,0 +1,190 @@
+<%- include('../includes/header.ejs') %>
+<script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/navbar.css">
+</head>
+<body>
+    <%- include('../includes/navbar.ejs') %>
+    <main>
+        <div class="container">
+            <div class="mx-auto p-2 text-center">
+             <form action="/admin/<% if(editing) { %>edit-job-post<% } else { %>add-job-post<% } %>" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Job Post Name</label>
+                    <input type="text" class="form-control" name="job_name"  id="job_name" maxlength="20" value="<% if(editing) { %> <%= post.jobPostName %> <% } %>" required>
+                    <div id="job_name_error" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload Image here</label>
+                        <input class="form-control" type="file" name="tech_image" id="tech_image" required accept="image/*" />
+                        <div id="tech_image_error" style="display: none;"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Short Description</label>
+                    <textarea class="form-control" name="short_desc" id="short_desc" maxlength="150" required rows="2"><% if(editing) { %> <%= post.shortDesc %> <% } %></textarea>
+                    <div id="short_desc_error" style="display: none;">Please enter a short description</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                    <textarea class="form-control" name="description" id="description" maxlength="250" required rows="5"><% if(editing) { %> <%= post.description %> <% } %></textarea>
+                    <div id="description_error" style="display: none;">Please enter a description</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Experience</label>
+                    <input type="text" class="form-control" name="experience" id="experience" maxlength="2" required value="<% if(editing) { %> <%= post.experience %> <% } %>">
+                    <div id="experience_error" style="display: none;">Please enter a valid experience</div>
+                </div>
+                <% if(editing) { %>
+                    <input type="hidden" value="<%= post._id %>" name="postId" >
+                <% } %>
+                    <button class="btn btn-primary" id="submitBtn" type="submit"><% if(editing) { %> Update Post <% } else { %> Add Post <% } %></button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const jobNameInput = document.getElementById("job_name");
+            const techImageInput = document.getElementById("tech_image");
+            const shortDescInput = document.getElementById("short_desc");
+            const descriptionInput = document.getElementById("description");
+            const experienceInput = document.getElementById("experience");
+            const submitBtn = document.getElementById("submitBtn");
+
+            var errorMsgName = document.getElementById("job_name_error");
+            var tech_image_error = document.getElementById("tech_image_error");
+            var short_desc_error = document.getElementById("short_desc_error");
+            var description_error = document.getElementById("description_error");
+            var experience_error = document.getElementById("experience_error");
+            let isValid = true;
+        
+            jobNameInput.addEventListener("input", function(event) {
+                var inputValueName = jobNameInput.value.trim();
+                if (!/^[a-zA-Z]*$/.test(inputValueName)) {
+                    errorMsgName.style.display = "block";
+                    jobNameInput.value = jobNameInput.value.replace(/[^a-zA-Z]/g, '');
+                    errorMsgName.innerText = "Only letters are allowed.";
+                    errorMsgName.style.color = "red";
+                    isValid = false;
+                } else if(inputValueName === ""){
+                  errorMsgName.style.display = "block";
+                  jobNameInput.value = jobNameInput.value.replace(/[^a-zA-Z]/g, '');
+                  errorMsgName.innerText = "Please fill this field.";
+                  errorMsgName.style.color = "red";
+                  isValid = false;
+                } else if(inputValueName.length < 3){
+                  errorMsgName.style.display = "block";
+                  jobNameInput.value = jobNameInput.value.replace(/[^a-zA-Z]/g, '');
+                  errorMsgName.innerText = "Job Name should be atleast 3 character long.";
+                  errorMsgName.style.color = "red";
+                  isValid = false;
+                } else {
+                    errorMsgName.style.display = "none";
+                    isValid = true;
+                }
+                checkFormValidity();
+            });
+
+            shortDescInput.addEventListener("input", function(event) {
+                var inputValueSd = shortDescInput.value.trim();
+                if (!/^[a-zA-Z\s]*$/.test(inputValueSd)) {
+                    short_desc_error.style.display = "block";
+                    shortDescInput.value = shortDescInput.value.replace(/[^a-zA-Z]/g, '');
+                    short_desc_error.innerText = "Only letters are allowed.";
+                    short_desc_error.style.color = "red";
+                    isValid = false;
+                } else if(inputValueSd === ""){
+                  short_desc_error.style.display = "block";
+                  shortDescInput.value = shortDescInput.value.replace(/[^a-zA-Z]/g, '');
+                  short_desc_error.innerText = "Please fill this field.";
+                  short_desc_error.style.color = "red";
+                  isValid = false;
+                } else if(inputValueSd.length < 3){
+                  short_desc_error.style.display = "block";
+                  shortDescInput.value = shortDescInput.value.replace(/[^a-zA-Z]/g, '');
+                  short_desc_error.innerText = "Short description should be atleast 3 character long.";
+                  short_desc_error.style.color = "red";
+                  isValid = false;
+                } else {
+                    short_desc_error.style.display = "none";
+                    isValid = true;
+                }
+                checkFormValidity();
+            });
+
+            descriptionInput.addEventListener("input", function(event) {
+                var inputValueD = descriptionInput.value.trim();
+                if (!/^[a-zA-Z\s]*$/.test(inputValueD)) {
+                    description_error.style.display = "block";
+                    descriptionInput.value = descriptionInput.value.replace(/[^a-zA-Z]/g, '');
+                    description_error.innerText = "Only letters are allowed.";
+                    description_error.style.color = "red";
+                    isValid = false;
+                } else if(inputValueD === ""){
+                  description_error.style.display = "block";
+                  descriptionInput.value = descriptionInput.value.replace(/[^a-zA-Z]/g, '');
+                  description_error.innerText = "Please fill this field.";
+                  description_error.style.color = "red";
+                  isValid = false;
+                } else if(inputValueD.length < 3){
+                  description_error.style.display = "block";
+                  descriptionInput.value = descriptionInput.value.replace(/[^a-zA-Z]/g, '');
+                  description_error.innerText = "Short description should be atleast 3 character long.";
+                  description_error.style.color = "red";
+                  isValid = false;
+                } else {
+                    description_error.style.display = "none";
+                    isValid = true;
+                }
+                checkFormValidity();
+            });
+
+            techImageInput.addEventListener("input", function(event) {
+                if (techImageInput.files.length === 0) {
+                    tech_image_error.style.display = "block";
+                    tech_image_error.innerText = "Please upload an image";
+                    tech_image_error.style.color = "red";
+                    isValid = false;
+                } else {
+                    tech_image_error.style.display = "none";
+                    isValid = true;
+                }
+                checkFormValidity();
+            });
+
+            experienceInput.addEventListener("input", function(event) {
+                var inputValueNumber = experienceInput.value.trim();
+                if (!/^\d*$/.test(inputValueNumber)) {
+                    experience_error.style.display = "block";
+                    experienceInput.value = inputValueNumber.replace(/\D/g, ''); // Removes non-numeric characters
+                    experience_error.innerText = "Only numbers are allowed.";
+                    experience_error.style.color = "red";
+                } else if( inputValueNumber === ""){
+                  experience_error.style.display = "block";
+                  experienceInput.value = inputValueNumber.replace(/\D/g, '');
+                  experience_error.innerText = "Please fill this field.";
+                  experience_error.style.color = "red";
+                } else if(inputValueNumber.length <= 0){
+                  experience_error.style.display = "block";
+                  experienceInput.value = inputValueNumber.replace(/\D/g, '');
+                  experience_error.innerText = "Atleast 1 year of experience is required.";
+                } else {
+                  experience_error.style.display = "none";
+                }
+                checkFormValidity();
+            });
+
+            function checkFormValidity() {
+                if (isValid) {
+                    submitBtn.disabled = false;
+                } else {
+                    submitBtn.disabled = true;
+                }
+              }
+
+            });
+
+    </script>
+
+<%- include('../includes/footer.ejs') %>

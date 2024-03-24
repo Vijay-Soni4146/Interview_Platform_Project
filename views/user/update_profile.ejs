@@ -1,0 +1,92 @@
+<%- include('../includes/header.ejs') %>
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <main class="container">
+        
+        <form action="/user/update-profile" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="name" maxlength="10" value="<%= user_data.name %>" required>
+                <div id="error-msg-name" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" name="email" id="email" maxlength="10" value="<%= user_data.email %>" required>
+                <div id="error-msg-email" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile</label>
+                <input type="text" class="form-control" name="mobile" id="mobile" maxlength="10" value="<%= user_data.mobile %>" required>
+                <div id="error-msg-name" style="display: none; color:red"></div>
+            </div>
+            work_experience:
+            <div class="mb-3">
+                <label for="company_name" class="form-label">company_name</label>
+                <input type="text" class="form-control" name="company_name" id="company_name" maxlength="10" value="<%= user_data.company_name %>" required>
+                <div id="error-msg-company_name" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="job_title" class="form-label">job_title</label>
+                <input type="text" class="form-control" name="job_title" id="job_title" maxlength="10" value="<%= user_data.job_title %>" required>
+                <div id="error-msg-job_title" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="duration" class="form-label">duration</label>
+                <input type="text" class="form-control" name="duration" id="duration" maxlength="10" value="<%= user_data.duration %>" required>
+                <div id="error-msg-duration" style="display: none; color:red"></div>
+            </div>
+            education:
+            <div class="mb-3">
+                <label for="degree" class="form-label">degree</label>
+                <input type="text" class="form-control" name="degree" id="degree" maxlength="10" value="<%= user_data.degree %>" required>
+                <div id="error-msg-degree" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="institue_name" class="form-label">institue_name</label>
+                <input type="text" class="form-control" name="institue_name" id="institue_name" maxlength="10" value="<%= user_data.institue_name %>" required>
+                <div id="error-msg-institue_name" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="field" class="form-label">field</label>
+                <input type="text" class="form-control" name="field" id="field" maxlength="10" value="<%= user_data.field %>" required>
+                <div id="error-msg-field" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="graduation" class="form-label">graduation Year</label>
+                <input type="text" class="form-control" name="graduation" id="graduation" maxlength="10" value="<%= user_data.graduation %>" required>
+                <div id="error-msg-graduation" style="display: none; color:red"></div>
+            </div>
+            skills:
+            <div class="mb-3">
+                <label for="technical" class="form-label">technical</label>
+                <input type="text" class="form-control" name="technical" id="technical" maxlength="10" value="<%= user_data.technical %>" required>
+                <div id="error-msg-technical" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="soft" class="form-label">soft</label>
+                <input type="text" class="form-control" name="soft" id="soft" maxlength="10" value="<%= user_data.soft %>" required>
+                <div id="error-msg-soft" style="display: none; color:red"></div>
+            </div>
+            references:
+            <div class="mb-3">
+                <label for="empname" class="form-label">empname</label>
+                <input type="text" class="form-control" name="empname" id="empname" maxlength="10" value="<%= user_data.empname %>" required>
+                <div id="error-msg-empname" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="department" class="form-label">department</label>
+                <input type="text" class="form-control" name="department" id="department" maxlength="10" value="<%= user_data.department %>" required>
+                <div id="error-msg-department" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="designation" class="form-label">designation</label>
+                <input type="text" class="form-control" name="designation" id="designation" maxlength="10" value="<%= user_data.designation %>" required>
+                <div id="error-msg-designation" style="display: none; color:red"></div>
+            </div>
+            <input type="hidden" name="userId" value="<%= user_data._id %>">
+            <button type="submit" id="submitBtn" class="btn btn-primary">Save Profile</button>
+        </form>
+    </main>
+
+<%- include('../includes/footer.ejs') %>

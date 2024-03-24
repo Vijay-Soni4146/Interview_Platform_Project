@@ -1,0 +1,199 @@
+<%- include('../includes/header.ejs') %>
+<script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/detail.css">
+</head>
+
+<body>
+  <%- include('../includes/navbar.ejs') %>
+
+  <main>
+
+            <% let applicantId = application.applicant_details._id %>
+            <% let jobPostId = application.job_posts[job_post]._id %>
+            <% let documentId=application.documents[document]._id %>
+            <% let applicationId=application._id %>
+
+            <% let document_image = application.documents[document].image.map(i=> i.path) %>
+            <% let document_video = application.documents[document].video.map(i=> i.path) %>
+    
+    <div class="page-container">
+
+      <div class="section-card">
+          <div class="horizontal-flex-between">
+              <span class="profile">
+                  <div class="profile-avatar">J</div>
+                  <h1 class="profile-name"><%= application.applicant_details.name %></h1>
+              </span>
+              <button class="schedule-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="bi bi-calendar-plus"></i>Schedule Interview</button>
+             
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form action="/admin/approved-evaluation" method="POST">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Schedule Interview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body m-3">
+                        <h6 class="modal-content mb-4" style="color: #6a84bd;">Please select date and time</h6>
+                        <input type="datetime-local" name="datetime" id="datetime">
+                      </div>
+                      <div class="modal-footer">
+                        <input type="hidden" name="applicantId" value="<%= applicantId %>">
+                        <input type="hidden" name="applicationId" value="<%= applicationId %>">
+                        <input type="hidden" name="jobPostId" value="<%= jobPostId %>">
+                        <input type="hidden" name="documentId" value="<%= documentId %>">
+                        <input type="hidden" name="images" value="<%= document_image %>">
+                        <input type="hidden" name="videos" value="<%= document_video %>">
+                        <button type="submit" name="approve" value="approve" class="btn btn-primary">Save
+                          changes</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <form action="/admin/rejected-evaluation" method="POST">
+                <input type="hidden" name="applicantId" value="<%= applicantId %>">
+                <input type="hidden" name="applicationId" value="<%= applicationId %>">
+                <input type="hidden" name="jobPostId" value="<%= jobPostId %>">
+                <input type="hidden" name="documentId" value="<%= documentId %>">
+                <input type="hidden" name="images" value="<%= document_image %>">
+                <input type="hidden" name="videos" value="<%= document_video %>">
+                <button type="submit" class="btn btn-danger" value="reject">Reject</button>
+              </form>
+
+          </div>
+          <div class="chip-wrap">
+              <div class="chip">
+                  <i class="bi bi-briefcase"></i>
+                  <p><%= application.experience %> years</p>
+              </div>
+              <div class="chip">
+                  <i class="bi bi-telephone"></i>
+                  <p><%= application.applicant_details.mobile %></p>
+              </div>
+              <div class="chip">
+                  <i class="bi bi-envelope"></i>
+                  <p> <%= application.applicant_details.email %></p>
+              </div>
+          </div>
+      </div>
+
+      <div class="section-card">
+          <div class="section-header">
+              <h1 class="section-title">Applicant Details</h1>
+              <hr class="divider">
+          </div>
+          <div class="applicantinfo-wrap">
+              <div class="info-card">
+                  <p>Job Role</p>
+                  <h3><%= application.job_posts[job_post].jobPostName %></h3>
+              </div>
+              <div class="info-card">
+                  <p>Date of Application</p>
+                  <% let dateStr = application.date_of_application %>
+                  <% let date = new Date(dateStr); %>
+
+                  <% let options = { day: 'numeric', month: 'long', year: 'numeric' ,hour: 'numeric', minute: 'numeric', hour12: true}; %>
+                  <% let formattedDate = new Intl.DateTimeFormat('en-US', options).format(date); %>
+
+                  <h3><%= formattedDate %></h3>
+              </div>
+          </div>
+
+
+          <div class="section-header">
+              <h1 class="section-title">Applicant Uploads</h1>
+              <hr class="divider">
+          </div>
+
+          <!-- Images -->
+          <h3 class="section-subtitle">Images</h3>
+          <div class="uploads-wrap">
+            <% application.documents[document].image.forEach((p,i)=>{ %>
+              <div class="image-wrap">
+                  <img src="/<%= p.path %>" alt="/<%= p.path %>">
+                  <a href="/<%= p.path %>"><i class="bi bi-box-arrow-up-right"></i></a>
+              </div>
+            <% }) %>
+          </div>
+
+          <!-- Videos -->
+          <h3 class="section-subtitle">Video</h3>
+          <div class="video-wrap">
+            
+            <% application.documents[document].video.forEach((p,i)=>{ %>
+              <video width="300" height="150" controls autoplay="false">
+                  <source src="/<%= p.path %>" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+            <% }) %>
+          </div>
+
+      </div>
+  </div>
+  
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var datetimeInput = document.getElementById("datetime");
+
+      // Get the current date and time
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = (now.getMonth() + 1).toString().padStart(2, '0');
+      var day = now.getDate().toString().padStart(2, '0');
+      var hours = now.getHours().toString().padStart(2, '0');
+      var minutes = now.getMinutes().toString().padStart(2, '0');
+      var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`;
+  
+      // Set the min attribute of the datetime-local input to the current date and time
+      datetimeInput.min = currentDatetime;
+  
+      // Add event listener to validate input
+      datetimeInput.addEventListener("change", function() {
+          var selectedDatetime = new Date(datetimeInput.value);
+          if (selectedDatetime < now) {
+              // Reset input if it's in the past
+              datetimeInput.value = currentDatetime;
+              <!-- alert("Testing : Please choose a date and time in the future."); -->
+          }
+      });
+
+      const maxYear = new Date().getFullYear() + 5; // Change 5 to the desired number of years in the future
+
+    // Set the input value to the current date and time
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const currentDay = String(currentDate.getDate()).padStart(2, '0');
+    const currentHour = String(currentDate.getHours()).padStart(2, '0');
+    const currentMinute = String(currentDate.getMinutes()).padStart(2, '0');
+    const currentDateTimeMax = `${currentYear}-${currentMonth}-${currentDay}T${currentHour}:${currentMinute}`;
+
+    datetimeInput.value = currentDateTimeMax;
+
+    // Set the maximum year for the input
+      const yearInput = document.querySelector('input[type="datetime-local"]');
+      yearInput.addEventListener('input', function() {
+        const selectedYear = new Date(this.value).getFullYear();
+        if (selectedYear > maxYear) {
+          this.value = `${maxYear}-01-01T00:00`; // Set the value to the maximum year with January 1st
+        }
+      });
+      // Prevent manual entry of future dates beyond the limit
+      yearInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        if (selectedDate.getFullYear() > maxYear) {
+          this.setCustomValidity(`Please select a date within the next ${maxYear - currentYear} years.`);
+        } else {
+          this.setCustomValidity('');
+        }
+      });
+    });
+    </script>
+
+  <%- include('../includes/footer.ejs') %>

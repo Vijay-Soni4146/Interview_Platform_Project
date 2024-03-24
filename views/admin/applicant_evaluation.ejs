@@ -1,0 +1,43 @@
+<%- include('../includes/header.ejs') %>
+
+<script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/navbar.css">
+</head>
+<body>
+    <%- include('../includes/navbar.ejs') %>
+    <main>
+        <% if(applications.length <= 0){ %>
+            <h1> Nothing there </h1>
+        <% }  else { %>
+            <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div class="col-sm-4 w-50 ">
+                    <% applications.forEach(ap => { %>
+                        <% if(ap.job_posts.length > 0) { %> 
+                            <% ap.job_posts.forEach(application => { %> 
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center gap-3">   
+                                                <img class="rounded float-left" style="width: 100%; max-width: 70px;" src="/<%= application.techImage %>" alt="/<%= application.techImage %>">
+                                                <div class="d-block">
+                                                    <p class="card-text" style="font-size: 20px; margin: 0px 0px 2px 0px;"><%= application.jobPostName %></p>
+                                                    <p class="card-text" style="font-size: 12px; margin: 0px 0px 2px 0px;">Applied By <b><%= ap.applicant_details.name %></b></p>
+                                                </div>
+                                            </div>
+                                            <p class="card-text">Applied</p>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-end mt-1">
+                                            <p style="margin: 0px;">3 days ago</p>
+                                            <a href="/admin/detail-evaluation/<%=ap._id%>?job=<%=application._id%>" class="link-primary" style="text-decoration:none;">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                    <% }) %>
+                </div>
+            </div>
+        <% }   %>
+    </main>
+
+<%- include('../includes/footer.ejs') %>

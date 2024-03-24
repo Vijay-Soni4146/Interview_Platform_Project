@@ -1,0 +1,111 @@
+    <header>
+        <div class="container mb-4">
+            <input type="checkbox" name="check" id="check">
+          <div class="logo-container">
+            <a href="/<% if(admin) { %>admin<% } else { %>user<% } %>"><% if(admin) { %> <h3 class="logo">TalentVista-<span>Admin</span></h3> <% } else { %> <h3 class="logo">Talent<span>Vista</span></h3>  <% } %></a>
+          </div>
+    
+          <div class="nav-btn">
+            <div class="nav-links">
+              <ul>
+                <% if(isAuthenticated) { %>
+                <li class="nav-link" style="--i: .6s">
+                    <a href="/<% if(admin) { %>admin/add-job-post<% } else { %>user<% } %>"><% if(admin) { %> Add Job Post <% } else { %> Job Posts <% } %></a>
+                </li>
+                <li class="nav-link" style="--i: .6s">
+                    <a href="/<% if(admin) { %>admin/create-evaluation<% } else { %>user<% } %>"><% if(admin) { %> Application Evaluation <% } else { %> Apply Now <% } %></a>
+                </li>
+                <li class="nav-link" style="--i: .85s">
+                  <a href="#">Applications<i class="fas fa-caret-down"></i></a>
+                  <div class="dropdown">
+                    <ul>
+                      <li class="dropdown-link">
+                        <a href="/<% if(admin) { %>admin/approved-evaluation<% } else { %>user<% } %>">Approved Applications</a>
+                      </li>
+                      <li class="dropdown-link">
+                        <a href="/<% if(admin) { %>admin/rejected-evaluation<% } else { %>user<% } %>">Rejected Applications</a>
+                      </li>
+                      <div class="arrow"></div>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-link" style="--i: 1.35s">
+                  <a href="/<% if(admin) { %>admin<% } else { %>user/application<% } %>"><% if(admin) { %><% } else { %> Applications <% } %></a>
+                </li>
+              <% } %>
+              </ul>
+            </div>
+            <% if(!isAuthenticated) { %>
+            <div class="log-sign" style="--i: 1.8s">
+               
+              <a href="/<% if(admin) { %>admin/login-recruiter<% } else { %>user/login-applicant<% } %>" class="btn transparent">Log in</a>
+              <a href="/<% if(admin) { %>admin/add-recruiter<% } else { %>user/add-applicant<% } %>" class="btn solid">Sign up</a>
+             
+            </div>
+            <% } else { %>
+            <div>
+                <ul>
+                    <li class="nav-link" style="--i: .85s">
+                        <a href="#">Vijay<i class="fas fa-caret-down"></i></a>
+                        <div class="dropdown">
+                          <ul>
+                            <!-- <li class="dropdown-link">
+                              <a href="/<% if(admin) { %>admin/my-profile<% } else { %>user/my-profile<% } %>">My Profile</a>
+                            </li> -->
+                            <li class="dropdown-link">
+                              <a href="/<% if(admin) { %>admin/reset-password-admin<% } else { %>user/reset-password-user<% } %>">Reset Password</a>
+                            </li>
+                            <form action="/<% if(admin) { %>admin/logout-recruiter<% } else { %>user/logout-applicant<% } %>" method="POST">
+                                <li class="dropdown-link"><button class="dropdown-link" type="submit">Logout</button></li>
+                              </form>
+                            <div class="arrow"></div>
+                          </ul>
+                        </div>
+                      </li>
+                </ul>
+            </div>
+            <% } %>
+          </div>
+    
+          <div class="hamburger-menu-container">
+            <div class="hamburger-menu">
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- <div class="container d-flex align-items-center justify-content-between">
+        <a class="navbar-brand" href="/<% if(admin) { %>admin<% } else { %>user<% } %>"><% if(admin) { %> TalentVista-Admin <% } else { %> TalentVista <% } %></a>
+          <ul class="nav">
+              <% if(isAuthenticated) { %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/<% if(admin) { %>admin/add-job-post<% } else { %>user<% } %>"><% if(admin) { %> Add Job Post <% } else { %> Job Posts <% } %></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/<% if(admin) { %>admin/create-evaluation<% } else { %>user<% } %>"><% if(admin) { %> Application Evaluation <% } else { %> Apply Now <% } %></a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="/<% if(admin) { %>admin/view-applicants<% } else { %>user/application<% } %>"><% if(admin) { %> Applicants <% } else { %> Applications <% } %></a>
+              </li>
+              <% } %>
+            </ul>
+            <div class="d-flex">
+                <% if(!isAuthenticated) { %> 
+                <a href="/<% if(admin) { %>admin/add-recruiter<% } else { %>user/add-applicant<% } %>"><button class="btn btn-outline-success me-3" type="submit">Signup</button></a>
+                <a href="/<% if(admin) { %>admin/login-recruiter<% } else { %>user/login-applicant<% } %>"><button class="btn btn-outline-success" type="submit">Login</button></a>
+                <% } else { %>
+                  <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vijay</a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="/<% if(admin) { %>admin/my-profile<% } else { %>user/my-profile<% } %>">My Profile</a></li>
+                      <li><a class="dropdown-item" href="/<% if(admin) { %>admin/reset-password-admin<% } else { %>user/reset-password-user<% } %>">Reset Password</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <form action="/<% if(admin) { %>admin/logout-recruiter<% } else { %>user/logout-applicant<% } %>" method="POST">
+                        <li><button class="dropdown-item" type="submit">Logout</button></li>
+                      </form>
+                    </ul>
+                  </div>
+                <% } %>
+            </div>
+      </div> -->

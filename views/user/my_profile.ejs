@@ -1,0 +1,24 @@
+<%- include('../includes/header.ejs') %>
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <main class="container">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" disabled name="name" id="name" maxlength="10" value="<%= user_data.name %>" required>
+                <div id="error-msg-name" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" disabled name="email" id="email" maxlength="10" value="<%= user_data.email %>" required>
+                <div id="error-msg-email" style="display: none; color:red"></div>
+            </div>
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile</label>
+                <input type="text" class="form-control" disabled name="mobile" id="mobile" maxlength="10" value="<%= user_data.mobile %>" required>
+                <div id="error-msg-name" style="display: none; color:red"></div>
+            </div>
+            <a href="/user/update-profile/<%=user_data._id%>" id="submitBtn" class="btn btn-primary">Update Profile</a>
+    </main>
+
+<%- include('../includes/footer.ejs') %>

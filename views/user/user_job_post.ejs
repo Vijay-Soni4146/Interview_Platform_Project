@@ -1,0 +1,73 @@
+<%- include('../includes/header.ejs') %>
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+     <div class="container">
+        <div  class="mx-auto p-2" >
+            <div class="card-body">
+                <h3>Required:</h3>
+                <h5 class="card-title"><%= post.jobPostName %></h5>
+                <p class="card-text"><%= post.shortDesc %></p>
+                <p class="card-text"><%= post.description %></p>
+                <p class="card-text">Experience: <%= post.experience %> yrs</p>
+                
+                <% if(asIds.findIndex(obj => obj.id == post._id) !== -1) { %>
+                    <h1>Already Applied!-as</h1>
+                    <a href="/user/application">View Application</a>
+                <% } else if(appIds.findIndex(obj => obj.id == post._id) !== -1) { %>
+                    <h1>Already Applied!-app</h1>
+                    <a href="/user/application">View Application</a>
+                <% } else { %> 
+                        <form action="/user/apply-job-post" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3 form-group row">
+                                <div class="col-xs-2">
+                                    <label for="experience" class="form-label">Your Experience</label>
+                                    <input class="form-control" type="text" name="experience" id="experience" maxlength="2" required />
+                                    <div id="error-msg" style="display: none; color:red">Please enter only numbers</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-group row">
+                                <div class="col-xs-2">
+                                    <label for="formFile" class="form-label">Upload Resume here</label>
+                                    <input class="form-control" type="file" name="image" id="image" accept='image/*' required multiple />
+                                    <% if(imageError) { %>
+                                        <p style="color:red"><%= imageError %></p>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-group row">
+                                <div class="col-xs-2">
+                                    <label for="formFile" class="form-label">Upload Video here</label>
+                                    <input class="form-control" type="file" name="video" id="video" accept="video/mp4" required multiple />
+                                    <% if(videoError) { %>
+                                        <p style="color:red"><%= videoError %></p>
+                                    <% } %>
+                                </div>
+                            </div>
+        
+                            <input type="hidden" name="postId" value="<%=post._id%>">
+                            <button type="submit" class="btn btn-primary">Apply Now</button>
+                        </form>
+                    <% } %>
+            </div>
+        </div>
+    </div>
+</main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var numberInput = document.getElementById("experience");
+            var errorMsg = document.getElementById("error-msg");
+        
+            numberInput.addEventListener("input", function() {
+                var inputValue = numberInput.value.trim();
+                if (!/^\d*$/.test(inputValue)) {
+                    errorMsg.style.display = "block";
+                } else {
+                    errorMsg.style.display = "none";
+                }
+            });
+        });
+        </script>
+
+<%- include('../includes/footer.ejs') %>

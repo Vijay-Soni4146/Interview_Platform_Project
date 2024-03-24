@@ -1,0 +1,36 @@
+<%- include('../includes/header.ejs') %>
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+            <% if (posts.length > 0){ %>
+                <div class="container d-flex flex-wrap gap-5 mt-4">
+                    <% for(let post of posts){ %>
+                    <div class="card " style="width: 18rem;">
+                        <div class="card-body text-center">
+                            <div class="card-header">
+                                <h5 class="card-title"><%= post.jobPostName %></h5>
+                            </div>
+                            <p class="card-text"><%= post.shortDesc %></p>
+                            <p class="card-text">Exp: <%= post.experience %> yrs</p>
+                        </div> 
+                    <% if(isAuthenticated){ %>
+                        <div class="card-body text-center d-flex align-items-center justify-content-center">
+                            <a href="/user/job-post/<%= post._id %>" class="btn btn-primary">Apply Now</a>
+                        </div>
+                    <% } else { %>
+                        <div class="card-body text-center d-flex align-items-center justify-content-center">
+                            <a href="/user/login-applicant" class="btn btn-primary">Apply Now</a>
+                        </div>
+                    <% } %>
+                    </div>
+                    <% } %>
+                </div>
+                <%- include('../includes/pagination.ejs',{currentPage : currentPage,nextPage:nextPage,previousPage:previousPage,lastPage:lastPage,hasNextPage:hasNextPage,hasPreviousPage:hasPreviousPage}) %>
+
+            <% } else{  %>
+                <h1>No Job Posts Available! </h1>
+            <% } %>
+    </main>
+
+<%- include('../includes/footer.ejs') %>

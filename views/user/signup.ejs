@@ -1,0 +1,196 @@
+<%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <main class="container">
+      <% if(errorMessage) { %>
+        <p style="color:red"><%= errorMessage %></p>
+      <% } %>
+      <div class="login-container">
+        <form class="login-form" action="/user/add-applicant" method="POST">
+          <h1>Welcome</h1>
+          <p>Join us today and start your journey!</p>
+          <div class="input-group">
+            <input type="text" placeholder="Name" name="name" id="name" maxlength="10" value="<%= oldInput.name %>" required>
+            <div id="error-msg-name" style="display: none; color:red"></div>
+              <% if(validationErrors) { %>
+                  <% const nameError = validationErrors.find(e => e.path === 'name') %>
+                  <% if(nameError){ %>
+                    <p style="color:red"><%= nameError.msg %></p>
+                 <% } %>
+              <% } %>
+          </div>
+          <div class="input-group">
+            <input type="email" placeholder="Email" name="email" id="email" maxlength="20" value="<%= oldInput.email %>" required>
+            <div id="error-msg-email" style="display: none; color:red"></div>
+              <% if(validationErrors) { %>
+                <% const emailError = validationErrors.find(e => e.path === 'email') %>
+                <% if(emailError){ %>
+                  <p style="color:red"><%= emailError.msg %></p>
+               <% } %>
+            <% } %>
+          </div>
+          <div class="input-group">
+            <input type="password" id="password" name="password" placeholder="Password" maxlength="20" value="<%= oldInput.password %>" required>
+            <div id="password-strength"></div>
+              <% if(validationErrors) { %>
+                <% const passwordError = validationErrors.find(e => e.path === 'password') %>
+                <% if(passwordError){ %>
+                  <p style="color:red"><%= passwordError.msg %></p>
+               <% } %>
+            <% } %>
+          </div>
+          <div class="input-group">
+            <input type="tel"  placeholder="Mobile" name="mobile" id="mobile" maxlength="10" value="<%= oldInput.mobile %>" required>
+            <div id="error-msg-mobile" style="display: none; color:red"></div>
+                <% if(validationErrors) { %>
+                  <% const mobileError = validationErrors.find(e => e.path === 'mobile') %>
+                  <% if(mobileError){ %>
+                    <p style="color:red"><%= mobileError.msg %></p>
+                 <% } %>
+              <% } %>
+          </div>
+          <button type="submit" id="submitBtn">Sign Up</button>
+          <div class="bottom-text">
+            <p>Have an account? <a href="/user/login-applicant">Login</a></p>
+            <p><a href="/user/forget-password-user">Forgot password?</a></p>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script>
+
+      document.addEventListener("DOMContentLoaded", function() {
+
+          var textInput = document.getElementById("name");
+          var errorMsgName = document.getElementById("error-msg-name");
+          var submitBtn = document.getElementById('submitBtn');
+      
+          textInput.addEventListener("input", function(event) {
+              var inputValueName = textInput.value.trim();
+              if (!/^[a-zA-Z]*$/.test(inputValueName)) {
+                  errorMsgName.style.display = "block";
+                  textInput.value = textInput.value.replace(/[^a-zA-Z]/g, '');
+                  errorMsgName.innerText = "Only letters are allowed.";
+              } else if(inputValueName === ""){
+                errorMsgName.style.display = "block";
+                textInput.value = textInput.value.replace(/[^a-zA-Z]/g, '');
+                errorMsgName.innerText = "Please fill this field.";
+              } else if(inputValueName.length < 3){
+                errorMsgName.style.display = "block";
+                textInput.value = textInput.value.replace(/[^a-zA-Z]/g, '');
+                errorMsgName.innerText = "Name should be atleast 3 character long.";
+              } else {
+                  errorMsgName.style.display = "none";
+              }
+              checkFormValidity();
+          });
+
+    var numberInput = document.getElementById("mobile");
+    var errorMsgMobile = document.getElementById("error-msg-mobile");
+
+    numberInput.addEventListener("input", function(event) {
+        var inputValueNumber = numberInput.value.trim();
+        if (!/^\d*$/.test(inputValueNumber)) {
+            errorMsgMobile.style.display = "block";
+            numberInput.value = inputValueNumber.replace(/\D/g, ''); // Removes non-numeric characters
+            errorMsgMobile.innerText = "Only numbers are allowed.";
+        } else if( inputValueNumber === ""){
+          errorMsgMobile.style.display = "block";
+          numberInput.value = inputValueNumber.replace(/\D/g, '');
+          errorMsgMobile.innerText = "Please fill this field.";
+        } else if(inputValueNumber.length < 10){
+          errorMsgMobile.style.display = "block";
+          numberInput.value = inputValueNumber.replace(/\D/g, '');
+          errorMsgMobile.innerText = "Mobile number must be at least 10 digits long.";
+        } else {
+          errorMsgMobile.style.display = "none";
+        }
+        checkFormValidity();
+    });
+    function checkFormValidity() {
+      if (errorMsgName.style.display === "none" && errorMsgMobile.style.display === "none") {
+          submitBtn.disabled = false;
+      } else {
+          submitBtn.disabled = true;
+      }
+    }
+
+    var passwordInput = document.getElementById("password");
+    var passwordStrengthMessage = document.getElementById("password-strength");
+
+    passwordInput.addEventListener("input", function() {
+        var password = passwordInput.value;
+        var strength = calculatePasswordStrength(password);
+
+        if(strength == "too_short"){
+          passwordStrengthMessage.innerText = "Password is too short.Atleast contains 3 character";
+          passwordStrengthMessage.style.color = "red";
+          submitBtn.disabled = true;
+        } else if (strength == "strong") {
+            passwordStrengthMessage.innerText = "Your password is strong and secure.";
+            passwordStrengthMessage.style.color = "green";
+            submitBtn.disabled = false;
+        } else if (strength == "medium") {
+            passwordStrengthMessage.innerText = "Your password is of medium strength. Consider adding numbers or special characters for increased security.";
+            passwordStrengthMessage.style.color = "orange";
+            submitBtn.disabled = false;
+        } else {
+            passwordStrengthMessage.innerText = "Password is too weak.Consider using a combination of letters, numbers, and special characters.";
+            passwordStrengthMessage.style.color = "red";
+            submitBtn.disabled = true;
+        }
+    });
+
+          var emailInput = document.getElementById("email");
+          var errorMsgEmail = document.getElementById("error-msg-email");
+      
+          emailInput.addEventListener("input", function() {
+              var email = emailInput.value.trim();
+              var isValid = validateEmail(email);
+      
+              if (isValid) {
+                errorMsgEmail.style.display = "none";
+                  submitBtn.disabled = false;
+              } else {
+                  errorMsgEmail.style.display = "block";
+                  errorMsgEmail.innerText = "Please enter a valid email address";
+                  errorMsgEmail.style.color = "red";
+                  submitBtn.disabled = true;
+              }
+          });
+      
+          function validateEmail(email) {
+              // Regular expression for email validation
+              var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              return emailRegex.test(email);
+          }
+
+    function calculatePasswordStrength(password) {
+        // Check password criteria (length, uppercase, lowercase, numbers, special characters)
+        var minLength = 3
+        var length = password.length >= 8;
+        var hasUppercase = /[A-Z]/.test(password);
+        var hasLowercase = /[a-z]/.test(password);
+        var hasNumber = /\d/.test(password);
+        var hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+        // Calculate password strength based on criteria met
+        if(password.length < minLength){
+          return "too_short";
+        }
+        else if (length && hasUppercase && hasLowercase && hasNumber && hasSpecialChar) {
+            return "strong";
+        } else if ((length && hasUppercase && hasLowercase && hasNumber) || (length && hasUppercase && hasLowercase && hasSpecialChar)) {
+            return "medium";
+        } else {
+            return "weak";
+        }
+    }
+
+      });
+      </script>
+
+<%- include('../includes/footer.ejs') %>

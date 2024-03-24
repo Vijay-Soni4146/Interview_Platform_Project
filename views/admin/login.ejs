@@ -1,0 +1,93 @@
+<%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/css/signup.css">
+<script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/navbar.css">
+</head>
+<body style="background-color: #f2f2f2;">
+    <%- include('../includes/navbar.ejs') %>
+    <% if(errorMessage) { %>
+      <p style="color:red"><%= errorMessage %></p>
+    <% } %>
+    <main class="container">
+      <div class="login-container">
+        <form class="login-form" action="/admin/login-recruiter" method="POST">
+          <h1>Welcome Back</h1>
+          <p>Please login to your account</p>
+          <div class="input-group">
+            <input type="email" id="email" name="email" placeholder="Email" maxlength="20" value="<%= oldInput.email %>" required>
+            <div id="error-msg" style="display: none;"></div>
+            <% if(validationErrors) { %>
+              <% const emailError = validationErrors.find(e => e.path === 'email') %>
+              <% if(emailError){ %>
+                <p style="color:red"><%= emailError.msg %></p>
+             <% } %>
+          <% } %>
+          </div>
+          <div class="input-group">
+            <input type="password" id="password" name="password" placeholder="Password" maxlength="20" value="<%= oldInput.password %>" required>
+            <div id="error-msg-pass" style="display: none;"></div>
+            <% if(validationErrors) { %>
+              <% const passwordError = validationErrors.find(e => e.path === 'password') %>
+              <% if(passwordError){ %>
+                <p style="color:red"><%= passwordError.msg %></p>
+             <% } %>
+          <% } %>
+          </div>
+          <button type="submit" id="submitBtn">Login</button>
+          <div class="bottom-text">
+            <p>Don't have an account? <a href="/admin/add-recruiter">Sign Up</a></p>
+            <p><a href="/admin/forget-password-admin">Forgot password?</a></p>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          var emailInput = document.getElementById("email");
+          var errorMsg = document.getElementById("error-msg");
+          var submitBtn = document.getElementById('submitBtn')
+      
+          emailInput.addEventListener("input", function() {
+              var email = emailInput.value.trim();
+              var isValid = validateEmail(email);
+      
+              if (isValid) {
+                  errorMsg.style.display = "none";
+                  submitBtn.disabled = false;
+              } else {
+                  errorMsg.style.display = "block";
+                  errorMsg.innerText = "Please enter a valid email address";
+                  errorMsg.style.color = "red";
+                  submitBtn.disabled = true;
+              }
+          });
+      
+          function validateEmail(email) {
+              // Regular expression for email validation
+              var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              return emailRegex.test(email);
+          }
+
+          var passwordField = document.getElementById("password");
+          var errMsgPass = document.getElementById("error-msg-pass");
+
+          passwordField.addEventListener("input", function() {
+            var password = passwordField.value;
+            if (/\s/.test(password)) {
+              // Remove the blank space and update the input value
+              passwordField.value = passwordField.value.replace(/\s/g, '');
+              // Display the message
+              errMsgPass.style.display = "block";
+              errMsgPass.style.color = "red";
+              errMsgPass.innerText = "Password cannot contain blank spaces";
+            } else {
+              // If no blank spaces, clear the message
+              errMsgPass.innerText = "";
+              errMsgPass.style.display = "none";
+            }
+        });
+      });
+      </script>
+
+<%- include('../includes/footer.ejs') %>

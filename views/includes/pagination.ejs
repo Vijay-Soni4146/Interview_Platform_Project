@@ -1,0 +1,15 @@
+<section class="pagination justify-content-center">
+    <% if(currentPage !== 1 && previousPage !==1 ) { %>
+        <a href="/<% if(admin) { %>admin<% } else { %>user<% } %>?page=1">1</a> 
+    <% } %>
+    <% if(hasPreviousPage) { %>  
+        <a href="/<% if(admin) { %>admin<% } else { %>user<% } %>?page=<%= previousPage %>"><%= previousPage %></a>
+    <% } %>
+    <a href="/<% if(admin) { %>admin<% } else { %>user<% } %>?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+    <% if(hasNextPage) { %>  
+        <a href="/<% if(admin) { %>admin<% } else { %>user<% } %>?page=<%= nextPage %>"><%= nextPage %></a>
+    <% } %>
+    <% if(lastPage !== currentPage && nextPage !== lastPage) { %>
+        <a href="/<% if(admin) { %>admin<% } else { %>user<% } %>?page=<%= lastPage %>" ><%= lastPage %></a>
+    <% } %>
+</section>

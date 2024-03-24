@@ -1,0 +1,70 @@
+<%- include('../includes/header.ejs') %>
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %>
+    <main>
+        <% if(applications) { if(application_status.length > 0) { %>
+            <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div class="col-sm-4 w-50 ">
+                    <% application_status.forEach(app => { %> 
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="d-flex align-items-center gap-3">   
+                                    <img class="rounded float-left" style="width: 100%; max-width: 70px;" src="/<%= app.jobPostId.techImage %>" alt="/<%= app.jobPostId.techImage %>">
+                                    <p class="card-text" style="font-size: 20px;"><%= app.jobPostId.jobPostName %></p>
+                                <!-- <h5 class="card-title">Company Name</h5>                             -->
+                                </div>
+                                <% if(app.status === 'approved'){ %>  
+                                    <div class="approved">
+                                        <p><%= app.status %></p>
+                                    </div>
+                                <%  } %>
+                                <% if(app.status === 'rejected'){ %>  
+                                    <div class="rejected">
+                                        <p><%= app.status %></p>
+                                    </div>
+                                <%  } %>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mt-1">
+                                <p style="margin: 0px;">3 days ago</p>
+                                <% if(app.status === 'approved'){ %>  
+                                    <a href="/user/approved-detail-evaluation/<%=applications._id%>?job=<%=app.jobPostId._id%>" class="link-primary" style="text-decoration:none;">View Details</a>
+                                <%  }else if(app.status === 'rejected') { %>
+                                    <a href="/user/rejected-detail-evaluation/<%=applications._id%>?job=<%=app.jobPostId._id%>" class="link-primary" style="text-decoration:none;">View Details</a>
+                                <% } %>
+                                </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } if(applications.job_posts.length > 0) { %>
+            <div class="d-flex flex-column justify-content-center align-items-center gap-3">
+                <div class="col-sm-4 w-50 ">
+                    <% applications.job_posts.forEach(application => { %> 
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex align-items-center gap-3">   
+                                    <img class="rounded float-left" style="width: 100%; max-width: 70px;" src="/<%= application.techImage %>" alt="/<%= application.techImage %>">
+                                    <p class="card-text" style="font-size: 20px;"><%= application.jobPostName %></p>
+                                <!-- <h5 class="card-title">Company Name</h5>                             -->
+                                </div>
+                                <p class="card-text">Applied</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end mt-1">
+                                <p style="margin: 0px;">3 days ago</p>
+                                <a href="/user/detail-evaluation/<%=applications._id%>?job=<%=application._id%>" class="link-primary" style="text-decoration:none;">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } }  else { %>
+            <h1> Nothing there </h1>
+        <% } %>
+    </main>
+
+<%- include('../includes/footer.ejs') %>
