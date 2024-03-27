@@ -1,37 +1,85 @@
 <nav class="navbar navbar-expand-sm mb-4 sticky-top custom-navbar">
-    <div class="container d-flex align-items-center justify-content-between">
-      <a class="navbar-brand" href="/<% if(admin) { %>admin<% } else { %>user<% } %>"><% if(admin) { %> TalentVista-Admin <% } else { %> TalentVista <% } %></a>
-        <ul class="nav">
-            <% if(isAuthenticated) { %>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/<% if(admin) { %>admin/add-job-post<% } else { %>user<% } %>"><% if(admin) { %> Add Job Post <% } else { %> Job Posts <% } %></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/<% if(admin) { %>admin/create-evaluation<% } else { %>user<% } %>"><% if(admin) { %> Application Evaluation <% } else { %><% } %></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="/<% if(admin) { %>admin/view-applicants<% } else { %>user/application<% } %>"><% if(admin) { %> Applicants <% } else { %> Applications <% } %></a>
-            </li>
-            <% } %>
-          </ul>
-          <div class="d-flex">
-              <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
-              <% if(!isAuthenticated) { %> 
-              <a href="/<% if(admin) { %>admin/add-recruiter<% } else { %>user/add-applicant<% } %>"><button class="btn btn-outline-success me-3" type="submit">Signup</button></a>
-              <a href="/<% if(admin) { %>admin/login-recruiter<% } else { %>user/login-applicant<% } %>"><button class="btn btn-outline-success" type="submit">Login</button></a>
-              <% } else { %>
-                <div class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Vijay</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/<% if(admin) { %>admin/my-profile<% } else { %>user/my-profile<% } %>">My Profile</a></li>
-                    <li><a class="dropdown-item" href="/<% if(admin) { %>admin/reset-password-admin<% } else { %>user/reset-password-user<% } %>">Reset Password</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <form action="/<% if(admin) { %>admin/logout-recruiter<% } else { %>user/logout-applicant<% } %>" method="POST">
-                      <li><button class="dropdown-item" type="submit">Logout</button></li>
-                    </form>
-                  </ul>
-                </div>
-              <% } %>
-          </div>
+  <div class="container d-flex align-items-center justify-content-between">
+    <a
+      class="navbar-brand"
+      href="/<% if(admin) { %>admin<% } else { %>user<% } %>"
+      ><% if(admin) { %> TalentVista-Admin <% } else { %> TalentVista <% } %></a
+    >
+    <ul class="nav">
+      <% if(isAuthenticated) { %>
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          aria-current="page"
+          href="/<% if(admin) { %>admin/add-job-post<% } else { %>user<% } %>"
+          ><% if(admin) { %> Add Job Post <% } else { %> Job Posts <% } %></a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="/<% if(admin) { %>admin/create-evaluation<% } else { %>user<% } %>"
+          ><% if(admin) { %> Application Evaluation <% } else { %><% } %></a
+        >
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link"
+          href="/<% if(admin) { %>admin/view-applicants<% } else { %>user/application<% } %>"
+          ><% if(admin) { %> Applicants <% } else { %> Applications <% } %></a
+        >
+      </li>
+      <% } %>
+    </ul>
+    <div class="d-flex">
+      <!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> -->
+      <% if(!isAuthenticated) { %>
+      <a
+        href="/<% if(admin) { %>admin/add-recruiter<% } else { %>user/add-applicant<% } %>"
+        ><button class="btn btn-outline-success me-3" type="submit">
+          Signup
+        </button></a
+      >
+      <a
+        href="/<% if(admin) { %>admin/login-recruiter<% } else { %>user/login-applicant<% } %>"
+        ><button class="btn btn-outline-success" type="submit">Login</button></a
+      >
+      <% } else { %>
+
+      <div class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          data-bs-toggle="dropdown"
+          href="#"
+          role="button"
+          aria-expanded="false"
+          >Vijay</a
+        >
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              href="/<% if(admin) { %>admin/my-profile<% } else { %>user/my-profile<% } %>"
+              >My Profile</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              href="/<% if(admin) { %>admin/reset-password-admin<% } else { %>user/reset-password-user<% } %>"
+              >Reset Password</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <form
+            action="/<% if(admin) { %>admin/logout-recruiter<% } else { %>user/logout-applicant<% } %>"
+            method="POST"
+          >
+            <li><button class="dropdown-item" type="submit">Logout</button></li>
+          </form>
+        </ul>
+      </div>
+      <% } %>
     </div>
-  </nav>
+  </div>
+</nav>

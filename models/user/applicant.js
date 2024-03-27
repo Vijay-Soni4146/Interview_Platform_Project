@@ -36,7 +36,7 @@ const applicantSchema = new Schema({
             degree:{
                 type:String,
             },
-            institue_name:{
+            institute_name:{
                 type:String,
             },
             field:{
