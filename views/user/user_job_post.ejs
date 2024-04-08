@@ -1,70 +1,87 @@
 <%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/css/user_job_post.css">
 </head>
 <body>
     <%- include('../includes/nav.ejs') %>
-    <main>
-     <div class="container">
-        <div  class="mx-auto p-2" >
-            <div class="card-body">
-                <h3>Required:</h3>
-                <h5 class="card-title"><%= post.jobPostName %></h5>
-                <p class="card-text"><%= post.shortDesc %></p>
-                <p class="card-text"><%= post.description %></p>
-                <p class="card-text">Experience: <%= post.experience %> yrs</p>
-                
-                <% if(asIds.findIndex(obj => obj.id == post._id) !== -1) { %>
+<div class="page-container">
+    <div class="section-card">
+      <div class="card-text-note">
+        <div class="text-note">
+          <label class="title">Job Post</label>
+        </div>
+      </div>
+
+      <div class="card-inner-body">
+        <div class="chip-wrap">
+          <div class="chip">
+            <p>Job Role</p>
+            <h2><%= post.jobPostName %></h2>
+          </div>
+          <div class="chip">
+            <p>Years of Experience</p>
+            <h2><%= post.experience %> Years</h2>
+          </div>
+        </div>
+
+        <div class="job-desc">
+          <p class="label">Job Description</p>
+          <p class="jd"><%= post.shortDesc %></p>
+          <p class="jd"><%= post.description %></p>
+        </div>
+<% if(asIds.findIndex(obj => obj.id == post._id) !== -1) { %>
                     <h1>Already Applied!-as</h1>
                     <a href="/user/application">View Application</a>
                 <% } else if(appIds.findIndex(obj => obj.id == post._id) !== -1) { %>
                     <h1>Already Applied!-app</h1>
                     <a href="/user/application">View Application</a>
                 <% } else { %> 
-                        <form action="/user/apply-job-post" method="POST" enctype="multipart/form-data">
-                            <div class="mb-3 form-group row">
-                                <div class="col-xs-2">
-                                    <label for="experience" class="form-label">Your Experience</label>
-                                    <input class="form-control" type="text" name="experience" id="experience" maxlength="2" required />
+                    <form action="/user/apply-job-post" method="POST" enctype="multipart/form-data">
+        <div class="form-wrap">
+          <div class="input-group">
+            <label class="label">Your Experience</label>
+            <input class="input" type="text" name="experience" id="experience" maxlength="2" required  placeholder="Please enter your experience">
                                     <div id="error-msg" style="display: none; color:red">Please enter only numbers</div>
-                                </div>
-                            </div>
-                            <div class="mb-3 form-group row">
-                                <div class="col-xs-2">
-                                    <label for="formFile" class="form-label">Upload Resume here</label>
-                                    <input class="form-control" type="file" name="image" id="image" accept='image/*' required multiple />
-                                    <% if(imageError) { %>
+          </div>
+
+          <div class="input-group">
+            <label class="label">Upload Resume</label>
+            <input type="file" name="image" id="image" accept='image/*' required multiple class="custom-input-2" />
+            <% if(imageError) { %>
                                         <p style="color:red"><%= imageError %></p>
                                     <% } %>
-                                </div>
-                            </div>
-                            <div class="mb-3 form-group row">
-                                <div class="col-xs-2">
-                                    <label for="formFile" class="form-label">Upload Video here</label>
-                                    <input class="form-control" type="file" name="video" id="video" accept="video/mp4" required multiple />
-                                    <% if(videoError) { %>
+          </div>
+
+          <div class="input-group">
+            <label class="label">Upload Video</label>
+            <input  type="file" name="video" id="video" accept="video/mp4" required multiple class="custom-input-2" />
+            <% if(videoError) { %>
                                         <p style="color:red"><%= videoError %></p>
                                     <% } %>
-                                </div>
-                            </div>
-        
+          </div>
+
                             <input type="hidden" name="postId" value="<%=post._id%>">
-                            <button type="submit" class="btn btn-primary">Apply Now</button>
-                        </form>
-                    <% } %>
-            </div>
+          <button type="submit" id="submitBtn" class="submit">APPLY NOW</button>
         </div>
+        </form>
+        <% } %>
+      </div>
+
     </div>
-</main>
+  </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var numberInput = document.getElementById("experience");
             var errorMsg = document.getElementById("error-msg");
-        
+            var submitBtn = document.getElementById('submitBtn');
+
             numberInput.addEventListener("input", function() {
                 var inputValue = numberInput.value.trim();
                 if (!/^\d*$/.test(inputValue)) {
                     errorMsg.style.display = "block";
+                    submitBtn.disabled = true;
                 } else {
                     errorMsg.style.display = "none";
+                    submitBtn.disabled = false;
                 }
             });
         });
