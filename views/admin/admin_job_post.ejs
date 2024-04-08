@@ -10,17 +10,17 @@
       <div class="section-card">
         <div class="card-text-note">
           <div class="job-icon"> <i class="bi bi-briefcase-fill"></i> </div>
-          <div class="text-note"> <label class="title">Add Job Post</label> <span class="subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, officiis. </span> </div>
+          <div class="text-note"> <label class="title">Add Job Post</label> <span class="subtitle">Opportunities don't happen, you create them.</span> </div>
         </div>
         <form action="/admin/<% if(editing) { %>edit-job-post<% } else { %>add-job-post<% } %>" method="POST" enctype="multipart/form-data">
         <div class="form-wrap">
           <div class="input-group"> <label class="label">Job Post</label> <input type="text" class="input" placeholder="Eg Software Developer" name="job_name"  id="job_name" maxlength="20" value="<% if(editing) { %> <%= post.jobPostName %> <% } %>" required>
                     <div id="job_name_error" style="display: none;"></div> </div>
-          <div class="input-group"> <label class="label">Short Description</label> <input class="input" placeholder="lorem ipsum donor" name="short_desc" id="short_desc" maxlength="150" value="<% if(editing) { %> <%= post.shortDesc %> <% } %>" required >
+          <div class="input-group"> <label class="label">Short Description</label> <input class="input" placeholder="Please enter a short description" name="short_desc" id="short_desc" maxlength="150" value="<% if(editing) { %> <%= post.shortDesc %> <% } %>" required >
                     <div id="short_desc_error" style="display: none;">Please enter a short description</div> </div>
-          <div class="input-group"> <label class="label">Description</label> <textarea class="input" placeholder="lorem ipsum donor" name="description" id="description" maxlength="250" required rows="5"><% if(editing) { %> <%= post.description %> <% } %></textarea>
+          <div class="input-group"> <label class="label">Description</label> <textarea class="input" placeholder="Please enter a description" name="description" id="description" maxlength="250" required rows="5"><% if(editing) { %> <%= post.description %> <% } %></textarea>
                     <div id="description_error" style="display: none;">Please enter a description</div> </div>
-          <div class="input-group"> <label class="label">Years of Experience</label> <input class="input" type="text" placeholder="please enter in number"  name="experience" id="experience" maxlength="2" required value="<% if(editing) { %> <%= post.experience %> <% } %>">
+          <div class="input-group"> <label class="label">Years of Experience</label> <input class="input" type="text" placeholder="please enter required experience"  name="experience" id="experience" maxlength="2" required value="<% if(editing) { %> <%= post.experience %> <% } %>">
                     <div id="experience_error" style="display: none;">Please enter a valid experience</div> </div> 
                     <!-- <label class="custom-file-upload" for="file"> <i class="bi bi-upload"></i> <span>Click to upload image</span>
                     <input type="file" class="custom-input-1" id="file"> </label> -->
