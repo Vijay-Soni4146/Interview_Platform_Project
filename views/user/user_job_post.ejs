@@ -69,6 +69,9 @@
     </div>
   </div>
     <script>
+      if(performance.navigation.type == 2){
+            location.reload(true);
+      }
         document.addEventListener("DOMContentLoaded", function() {
             var numberInput = document.getElementById("experience");
             var errorMsg = document.getElementById("error-msg");
@@ -85,6 +88,8 @@
                 }
             });
         });
+
+        
         </script>
 
 <%- include('../includes/footer.ejs') %>

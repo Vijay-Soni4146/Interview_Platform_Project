@@ -41,5 +41,11 @@
         </div>
         <% } %>
     </main>
+    <script>
+        window.addEventListener('popstate', function(event) {
+        // Redirect to a different page
+        window.location.href = "http://localhost:5000/admin/rejected-evaluation";
+        })
+    </script>
 
 <%- include('../includes/footer.ejs') %>
