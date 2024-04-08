@@ -1,0 +1,179 @@
+
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        background-color: #f8f9fb;
+        font-family: "Poppins", sans-serif;
+      }
+
+      button {
+        font-family: inherit;
+      }
+
+      /* Container */
+      .page-container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 40px 0px 0px 0px;
+      }
+
+      @media (max-width: 768px) {
+        .page-container {
+          padding-top: 40px;
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+
+      /* Section Card */
+      .section-card {
+        width: 100%;
+        background-color: #f8f8f8;
+        border: 2px solid #f3f3f3;
+        border-radius: 14px;
+        display: flex;
+        row-gap: 0px;
+        flex-direction: column;
+        margin-bottom: 30px;
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      }
+
+      /* --- /Section Card/ --- */
+      /* ---- card-text-note ---- */
+      .card-text-note {
+        display: flex;
+        flex-direction: row;
+        align-items: start;
+        justify-content: flex-start;
+        /* background-color: #edf0f8; */
+        padding: 24px 32px;
+        column-gap: 20px;
+      }
+
+      .text-note {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .job-icon {
+        background-color: #edf0f8;
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        color: #4362a2;
+        font-size: 20px;
+      }
+
+      .title {
+        font-weight: 700;
+        font-size: 18px;
+        color: #162136;
+      }
+
+      .subtitle {
+        font-weight: 500;
+        font-size: 14px;
+        color: #5F5D6B;
+      }
+
+      /* ---- /card-text-note ---- */
+      .form-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        row-gap: 20px;
+        width: 100%;
+        padding: 0px 32px;
+      }
+
+      .input-group {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .input,
+      textarea {
+        font-family: inherit;
+        width: 100%;
+        background-color: #ececec;
+        border-radius: 8px;
+        font-size: 14px;
+        padding: 8px 14px;
+        border: 2px solid transparent;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #05060f99;
+        transition: color .3s cubic-bezier(.25, .01, .25, 1) 0s;
+      }
+
+      .submit {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 18px;
+        gap: 10px;
+        width: 100%;
+        height: 42px;
+        background-color: #304674;
+        border-radius: 5px;
+        border: 0;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+
+      .custom-file-upload {
+        height: 48px;
+        width: inherit;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #cacaca;
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 10px;
+        box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+      }
+
+      .custom-file-upload span {
+        font-weight: 400;
+        color: #4b5563;
+        font-size:14px;
+      }
+
+      .custom-input-1 {
+        display: none;
+      }
+
+      .custom-input-2::file-selector-button {
+        border: none;
+        background-color: #ececec;
+        font-weight: 400;
+        color: #4b5563;
+        font-family: inherit;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+      }

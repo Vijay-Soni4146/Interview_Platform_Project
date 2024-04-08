@@ -1,46 +1,39 @@
 <%- include('../includes/header.ejs') %>
 <script src="https://kit.fontawesome.com/3b161c540c.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="/css/navbar.css">
+<link rel="stylesheet" href="/css/add_job_post.css">
 </head>
 <body>
     <%- include('../includes/navbar.ejs') %>
-    <main>
-        <div class="container">
-            <div class="mx-auto p-2 text-center">
-             <form action="/admin/<% if(editing) { %>edit-job-post<% } else { %>add-job-post<% } %>" method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Job Post Name</label>
-                    <input type="text" class="form-control" name="job_name"  id="job_name" maxlength="20" value="<% if(editing) { %> <%= post.jobPostName %> <% } %>" required>
-                    <div id="job_name_error" style="display: none;"></div>
-                </div>
-                <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload Image here</label>
-                        <input class="form-control" type="file" name="tech_image" id="tech_image" required accept="image/*" />
-                        <div id="tech_image_error" style="display: none;"></div>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Short Description</label>
-                    <textarea class="form-control" name="short_desc" id="short_desc" maxlength="150" required rows="2"><% if(editing) { %> <%= post.shortDesc %> <% } %></textarea>
-                    <div id="short_desc_error" style="display: none;">Please enter a short description</div>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-                    <textarea class="form-control" name="description" id="description" maxlength="250" required rows="5"><% if(editing) { %> <%= post.description %> <% } %></textarea>
-                    <div id="description_error" style="display: none;">Please enter a description</div>
-                </div>
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Experience</label>
-                    <input type="text" class="form-control" name="experience" id="experience" maxlength="2" required value="<% if(editing) { %> <%= post.experience %> <% } %>">
-                    <div id="experience_error" style="display: none;">Please enter a valid experience</div>
-                </div>
-                <% if(editing) { %>
+    
+        <div class="page-container">
+      <div class="section-card">
+        <div class="card-text-note">
+          <div class="job-icon"> <i class="bi bi-briefcase-fill"></i> </div>
+          <div class="text-note"> <label class="title">Add Job Post</label> <span class="subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, officiis. </span> </div>
+        </div>
+        <form action="/admin/<% if(editing) { %>edit-job-post<% } else { %>add-job-post<% } %>" method="POST" enctype="multipart/form-data">
+        <div class="form-wrap">
+          <div class="input-group"> <label class="label">Job Post</label> <input type="text" class="input" placeholder="Eg Software Developer" name="job_name"  id="job_name" maxlength="20" value="<% if(editing) { %> <%= post.jobPostName %> <% } %>" required>
+                    <div id="job_name_error" style="display: none;"></div> </div>
+          <div class="input-group"> <label class="label">Short Description</label> <input class="input" placeholder="lorem ipsum donor" name="short_desc" id="short_desc" maxlength="150" value="<% if(editing) { %> <%= post.shortDesc %> <% } %>" required >
+                    <div id="short_desc_error" style="display: none;">Please enter a short description</div> </div>
+          <div class="input-group"> <label class="label">Description</label> <textarea class="input" placeholder="lorem ipsum donor" name="description" id="description" maxlength="250" required rows="5"><% if(editing) { %> <%= post.description %> <% } %></textarea>
+                    <div id="description_error" style="display: none;">Please enter a description</div> </div>
+          <div class="input-group"> <label class="label">Years of Experience</label> <input class="input" type="text" placeholder="please enter in number"  name="experience" id="experience" maxlength="2" required value="<% if(editing) { %> <%= post.experience %> <% } %>">
+                    <div id="experience_error" style="display: none;">Please enter a valid experience</div> </div> 
+                    <!-- <label class="custom-file-upload" for="file"> <i class="bi bi-upload"></i> <span>Click to upload image</span>
+                    <input type="file" class="custom-input-1" id="file"> </label> -->
+          <div class="input-group"> <label class="label">Upload Image</label> <input type="file" name="tech_image" id="tech_image" required accept="image/*" class="custom-input-2" /> 
+                        <div id="tech_image_error" style="display: none;"></div></div> 
+                        <% if(editing) { %>
                     <input type="hidden" value="<%= post._id %>" name="postId" >
                 <% } %>
-                    <button class="btn btn-primary" id="submitBtn" type="submit"><% if(editing) { %> Update Post <% } else { %> Add Post <% } %></button>
-                </form>
-            </div>
+                        <button class="submit" id="submitBtn" type="submit"><% if(editing) { %> Update Job Post <% } else { %> Publish Job Post <% } %></button>
         </div>
-    </main>
+        </form>
+      </div>
+    </div>
 
     <script>
 
