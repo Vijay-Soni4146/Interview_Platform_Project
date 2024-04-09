@@ -221,9 +221,9 @@ textarea {
   color: #4b5563;
 }
 
-.custom-input-1 {
+/* .custom-input-1 {
   display: none;
-}
+} */
 
 .custom-input-2::file-selector-button {
   border: none;
@@ -231,6 +231,7 @@ textarea {
   font-weight: 400;
   color: #4b5563;
   font-family: inherit;
-  padding: 12px;
+  padding: 8px 12px;
+  font-size: 14px;
   border-radius: 8px;
 }
