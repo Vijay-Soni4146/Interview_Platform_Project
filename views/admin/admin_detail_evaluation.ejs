@@ -6,8 +6,8 @@
 
 <body>
   <%- include('../includes/navbar.ejs') %>
-
-  <main>
+  <% if(!!(application.job_posts[job_post])){ %>
+    <main>
 
             <% let applicantId = application.applicant_details._id %>
             <% let jobPostId = application.job_posts[job_post]._id %>
@@ -137,8 +137,16 @@
   </div>
   
   </main>
-
+  <% }else{ %>
+  <h1>Nothing exists</h1>
+  <% } %>
   <script>
+
+   window.addEventListener('pageshow', function(event) {
+                 if (event.persisted) {
+                     location.reload(true);
+                 }
+    });
 
     document.addEventListener("DOMContentLoaded", function() {
       var datetimeInput = document.getElementById("datetime");
