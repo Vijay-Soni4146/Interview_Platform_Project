@@ -293,6 +293,10 @@ header {
   transform: translateY(0) rotate(45deg);
 }
 
+.card{
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
 @keyframes animation {
   from {
     opacity: 0;
